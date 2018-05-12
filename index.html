@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>     
+     <script src="https://raw.githubusercontent.com/donmccurdy/aframe-extras/master/src/misc/kinematic-body.js"></script>
+     <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v3.1.2/dist/aframe-physics-system.min.js"></script>
+</head>
+<body>
+    <a-scene>
+            <a-assets>
+                <img src="asset/img/piso.jpg" id="suelo">
+                <img src="asset/img/pared.jpg" id="pared">
+            </a-assets>
+
+           
+            
+        <a-entity id="jugador"                    
+        position =“0 1.6 0”>
+
+        </a-entity>
+
+        <a-sky color="skyblue"></a-sky>
+
+        <!--a-box color="red" width="20" height="10" depth=".2" position="0 0 -7"></a-box-->
+
+        <a-entity id="muros"></a-entity>
+
+
+        <a-grid static-body src="#suelo"></a-grid>
+    </a-scene>
+
+    <script>
+            var mapa = [
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,1,1,1,1,0,0,0,0],
+      [0,0,1,0,0,0,1,1,1,0],
+      [0,0,1,0,0,0,1,3,1,0],
+      [0,0,1,0,2,1,1,0,1,0],
+      [1,1,1,1,0,1,1,0,1,0],
+      [1,0,0,0,3,0,1,0,1,0],
+      [1,1,1,1,1,1,1,0,1,0],
+      [0,3,0,0,0,0,0,0,0,0],
+    ]
+
+
+
+    var TAMANO_PARED=5
+    var ALTO_PARED=3
+    var muro
+    var muros = document.querySelector('#muros')
+ 
+    for(var x=0; x<mapa.length; x++){
+        for (var y = 0; y < mapa[x].length; y++) {
+            
+            var posicion = (x-mapa.length/2)*TAMANO_PARED + ' '
++ 1.5 + ' ' + (y-mapa[x].length/2)*TAMANO_PARED
+
+            if(mapa[x][y] == 0){
+                continue
+            }else if(mapa[x][y] == 1){                
+                muro = document.createElement('a-box')
+                muros.appendChild(muro)
+                muro.setAttribute('color', '#fff')                
+                muro.setAttribute('width', TAMANO_PARED)
+                muro.setAttribute('depth', TAMANO_PARED)
+                muro.setAttribute('height',ALTO_PARED)
+                muro.setAttribute('position',posicion)
+                muro.setAttribute('static-body','')
+            }else if(mapa[x][y] == 2){
+                document.querySelector("#jugador").setAttribute('position', posicion)
+            }else if (mapa[x][y] == 3){
+                //premios
+            }
+        }
+    }
+
+    </script>
+</body>
+</html>
